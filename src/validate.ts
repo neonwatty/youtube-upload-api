@@ -24,16 +24,14 @@ export function getVideoInfo(filePath: string): VideoInfo {
       `ffprobe -v quiet -print_format json -show_streams -show_format "${filePath}"`,
       { encoding: "utf-8" }
     );
-  } catch (error) {
+  } catch {
     throw new Error(
       `Failed to analyze video. Make sure ffprobe is installed (brew install ffmpeg)`
     );
   }
 
   const probe = JSON.parse(ffprobeOutput);
-  const videoStream = probe.streams?.find(
-    (s: any) => s.codec_type === "video"
-  );
+  const videoStream = probe.streams?.find((s: any) => s.codec_type === "video");
 
   if (!videoStream) {
     throw new Error("No video stream found in file");
@@ -63,14 +61,10 @@ export function getVideoInfo(filePath: string): VideoInfo {
 
   // Aspect ratio check (9:16 = 0.5625)
   if (!isVertical) {
-    warnings.push(
-      `Video is horizontal (${width}x${height}) - Shorts should be vertical (9:16)`
-    );
+    warnings.push(`Video is horizontal (${width}x${height}) - Shorts should be vertical (9:16)`);
     isValidShort = false;
   } else if (Math.abs(aspectDecimal - 0.5625) > 0.1) {
-    warnings.push(
-      `Aspect ratio ${aspectRatio} differs from ideal 9:16 - may have black bars`
-    );
+    warnings.push(`Aspect ratio ${aspectRatio} differs from ideal 9:16 - may have black bars`);
   }
 
   return {

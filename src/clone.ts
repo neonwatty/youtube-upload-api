@@ -34,7 +34,7 @@ export async function cloneVideo(
   if (!checkYtDlp()) {
     throw new Error(
       "yt-dlp is required for cloning videos.\n" +
-      "  Install with: brew install yt-dlp (macOS) or pip install yt-dlp"
+        "  Install with: brew install yt-dlp (macOS) or pip install yt-dlp"
     );
   }
 
@@ -72,11 +72,10 @@ export async function cloneVideo(
   console.log("Downloading video...");
   try {
     // Let yt-dlp choose best format and merge to mp4
-    execSync(
-      `yt-dlp --merge-output-format mp4 -o "${tempFile}" "${videoUrl}"`,
-      { stdio: "inherit" }
-    );
-  } catch (error) {
+    execSync(`yt-dlp --merge-output-format mp4 -o "${tempFile}" "${videoUrl}"`, {
+      stdio: "inherit",
+    });
+  } catch {
     throw new Error(
       `Failed to download video. Make sure the video is accessible and you have permission to download it.`
     );

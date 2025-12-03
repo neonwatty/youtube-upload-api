@@ -147,16 +147,12 @@ async function handleUpload(args: CliArgs): Promise<void> {
   // Validate video unless skipped
   if (!args.skipValidation) {
     if (!checkFfprobe()) {
-      console.warn(
-        "Warning: ffprobe not found. Install ffmpeg for video validation.\n"
-      );
+      console.warn("Warning: ffprobe not found. Install ffmpeg for video validation.\n");
     } else {
       const info = validateForShorts(filePath);
 
       if (!info.isValidShort && !args.forceUpload) {
-        console.error(
-          "\nVideo does not meet Shorts requirements. Use --force to upload anyway."
-        );
+        console.error("\nVideo does not meet Shorts requirements. Use --force to upload anyway.");
         process.exit(1);
       }
     }

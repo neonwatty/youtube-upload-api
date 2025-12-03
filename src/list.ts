@@ -72,8 +72,7 @@ export async function listVideos(
     throw new Error("No channel found for authenticated user");
   }
 
-  const uploadsPlaylistId =
-    channel.contentDetails?.relatedPlaylists?.uploads;
+  const uploadsPlaylistId = channel.contentDetails?.relatedPlaylists?.uploads;
   if (!uploadsPlaylistId) {
     throw new Error("Could not find uploads playlist");
   }
@@ -138,10 +137,7 @@ export function printVideosTable(result: ListResult): void {
   console.log(`\nYour Videos (showing ${videos.length} of ${totalResults})\n`);
 
   // Calculate column widths
-  const maxTitleLen = Math.min(
-    40,
-    Math.max(...videos.map((v) => v.title.length))
-  );
+  const maxTitleLen = Math.min(40, Math.max(...videos.map((v) => v.title.length)));
 
   // Header
   const header = `  #  ${"Title".padEnd(maxTitleLen)}  Privacy    Views    Duration  Published`;

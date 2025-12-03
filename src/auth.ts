@@ -6,7 +6,7 @@ import * as http from "http";
 import { URL } from "url";
 
 const SCOPES = [
-  "https://www.googleapis.com/auth/youtube",  // Full access for upload, update, delete
+  "https://www.googleapis.com/auth/youtube", // Full access for upload, update, delete
 ];
 const TOKEN_PATH = path.join(process.cwd(), "token.json");
 const CREDENTIALS_PATH = path.join(process.cwd(), "client_secrets.json");
@@ -59,9 +59,7 @@ function getCredentials(): { client_id: string; client_secret: string } {
 
   // Fall back to local file
   if (fs.existsSync(CREDENTIALS_PATH)) {
-    const credentials: Credentials = JSON.parse(
-      fs.readFileSync(CREDENTIALS_PATH, "utf-8")
-    );
+    const credentials: Credentials = JSON.parse(fs.readFileSync(CREDENTIALS_PATH, "utf-8"));
     const config = credentials.installed || credentials.web!;
     return {
       client_id: config.client_id,
@@ -71,7 +69,7 @@ function getCredentials(): { client_id: string; client_secret: string } {
 
   throw new Error(
     "Missing credentials. Set YOUTUBE_CLIENT_ID and YOUTUBE_CLIENT_SECRET " +
-    "environment variables (via Doppler or .env), or provide client_secrets.json"
+      "environment variables (via Doppler or .env), or provide client_secrets.json"
   );
 }
 
@@ -114,9 +112,7 @@ function waitForAuthCode(): Promise<string> {
 
         if (code) {
           res.writeHead(200, { "Content-Type": "text/html" });
-          res.end(
-            "<h1>Authentication successful!</h1><p>You can close this window.</p>"
-          );
+          res.end("<h1>Authentication successful!</h1><p>You can close this window.</p>");
           server.close();
           resolve(code);
         } else {
