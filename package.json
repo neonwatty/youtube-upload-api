@@ -1,0 +1,29 @@
+{
+  "name": "youtube-upload-api",
+  "version": "1.0.0",
+  "description": "CLI tool for uploading YouTube Shorts",
+  "main": "dist/index.js",
+  "bin": {
+    "yt-shorts": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/cli.js",
+    "dev": "ts-node src/cli.ts",
+    "auth": "ts-node src/auth.ts"
+  },
+  "keywords": ["youtube", "shorts", "upload", "api"],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@google-cloud/local-auth": "^3.0.1",
+    "google-auth-library": "^10.5.0",
+    "googleapis": "^166.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
