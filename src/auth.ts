@@ -48,20 +48,35 @@ export async function getAuthenticatedClient(): Promise<OAuth2Client> {
 
 const REDIRECT_URI = "http://localhost:3000";
 
-function createOAuth2Client(): OAuth2Client {
-  if (!fs.existsSync(CREDENTIALS_PATH)) {
-    throw new Error(
-      `Missing ${CREDENTIALS_PATH}. Download OAuth 2.0 credentials from Google Cloud Console.`
-    );
+function getCredentials(): { client_id: string; client_secret: string } {
+  // Try environment variables first (Doppler or .env)
+  if (process.env.YOUTUBE_CLIENT_ID && process.env.YOUTUBE_CLIENT_SECRET) {
+    return {
+      client_id: process.env.YOUTUBE_CLIENT_ID,
+      client_secret: process.env.YOUTUBE_CLIENT_SECRET,
+    };
   }
 
-  const credentials: Credentials = JSON.parse(
-    fs.readFileSync(CREDENTIALS_PATH, "utf-8")
+  // Fall back to local file
+  if (fs.existsSync(CREDENTIALS_PATH)) {
+    const credentials: Credentials = JSON.parse(
+      fs.readFileSync(CREDENTIALS_PATH, "utf-8")
+    );
+    const config = credentials.installed || credentials.web!;
+    return {
+      client_id: config.client_id,
+      client_secret: config.client_secret,
+    };
+  }
+
+  throw new Error(
+    "Missing credentials. Set YOUTUBE_CLIENT_ID and YOUTUBE_CLIENT_SECRET " +
+    "environment variables (via Doppler or .env), or provide client_secrets.json"
   );
+}
 
-  const { client_id, client_secret } =
-    credentials.installed || credentials.web!;
-
+function createOAuth2Client(): OAuth2Client {
+  const { client_id, client_secret } = getCredentials();
   return new google.auth.OAuth2(client_id, client_secret, REDIRECT_URI);
 }
 

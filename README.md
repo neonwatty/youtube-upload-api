@@ -4,12 +4,11 @@ CLI tool for managing YouTube Shorts.
 
 ## Setup
 
+### Google Cloud Setup
 1. Create a project at [Google Cloud Console](https://console.cloud.google.com)
 2. Enable **YouTube Data API v3**
 3. Create **OAuth 2.0 credentials** (Web application type)
 4. Add `http://localhost:3000` as authorized redirect URI
-5. Download credentials as `client_secrets.json` in this directory
-6. Run `yt-shorts auth`
 
 ### Requirements
 
@@ -20,10 +19,39 @@ CLI tool for managing YouTube Shorts.
 ## Installation
 
 ```bash
+make install
+```
+
+Or manually:
+```bash
 npm install
 npm run build
-npm link  # Makes yt-shorts available globally
+npm link
 ```
+
+## Secrets Configuration
+
+### Option A: Doppler (Recommended)
+
+```bash
+# Connect to Doppler project
+make doppler-connect
+
+# Run commands (secrets auto-injected)
+make auth
+make list ARGS="--max 20"
+```
+
+### Option B: Local .env File
+
+```bash
+cp .env.example .env
+# Edit .env with your credentials
+```
+
+### Option C: Local client_secrets.json
+
+Download OAuth credentials from Google Cloud Console as `client_secrets.json`.
 
 ## Commands
 

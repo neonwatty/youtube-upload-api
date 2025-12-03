@@ -11,7 +11,8 @@ client_secrets.json
 
 # Environment
 .env
-.env.*
+.env.local
+!.env.example
 
 # Video files
 *.mp4
